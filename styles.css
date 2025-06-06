@@ -1,0 +1,313 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: serif;
+  background-color: black;
+  color: darkred;
+  overflow: auto;
+}
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* ------------ forms ------------ */
+select,
+button,
+label {
+  width: calc(6 * var(--unit));
+  height: calc(6 * var(--unit));
+  border: 1px solid #fff2;
+  border-radius: calc(3 * var(--unit));
+  padding: 0;
+  background-color: #0b0704;
+
+  font-family: serif;
+  font-size: calc(2.5 * var(--unit));
+  color: #fedfae;
+
+  touch-action: manipulation;
+  cursor: pointer;
+  margin-left: calc(1 * var(--unit));
+}
+body select * {
+  color: initial;
+  font-size: initial;
+}
+.text-button {
+  padding: 0 calc(2 * var(--unit));
+  width: auto;
+}
+
+/* remove select caret */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+/* for IE10 */
+select::-ms-expand {
+  display: none;
+}
+
+/* hover states */
+@media (hover: hover) {
+  div select:hover,
+  button:hover,
+  .text-button:hover,
+  .radio-label:hover {
+    background-color: #312b26;
+  }
+}
+
+/* ------------ main ------------ */
+main {
+  height: calc(100 * var(--unit));
+  width: calc(174 * var(--unit));
+  background-image: url(img/hamlet.webp);
+  background-size: 100%;
+  background-repeat: no-repeat;
+
+  position: relative;
+}
+main > * {
+  position: absolute;
+}
+
+/* ------------ config buttons ------------ */
+.zoom {
+  width: auto;
+  display: flex;
+  top: 16%;
+  left: 11%;
+}
+.zoom button,
+.zoom select {
+  background-position: center;
+  background-size: 70%;
+  background-repeat: no-repeat;
+}
+.zoom-in {
+  background-image: url(img/icons/zoom_in.svg);
+}
+.zoom-out {
+  background-image: url(img/icons/zoom_out.svg);
+}
+.settings {
+  color: transparent;
+  background-image: url(img/icons/settings.svg);
+}
+.settings option {
+  color: #fedfae;
+}
+
+/* ------------ buildings ------------ */
+.building {
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+.survivalist {
+  top: 29.3%;
+  left: 0.7%;
+  width: 16.6%;
+  height: 40%;
+}
+.tavern {
+  top: 16.3%;
+  left: 17.8%;
+  width: 20%;
+  height: 75%;
+}
+.sanitarium {
+  top: 15%;
+  left: 32.3%;
+  width: 14.4%;
+  height: 65%;
+}
+.abbey {
+  top: 2.8%;
+  left: 47.3%;
+  width: 32.4%;
+  height: 52.2%;
+}
+.stagecoach {
+  top: 75.6%;
+  left: 11.4%;
+  width: 27.8%;
+  height: 22%;
+}
+.blacksmith {
+  top: 49%;
+  left: 66.7%;
+  width: 32.4%;
+  height: 40%;
+}
+.nomad_wagon {
+  top: 65.1%;
+  left: 44.8%;
+  width: 21%;
+  height: 32.6%;
+}
+
+/* resources */
+.resources {
+  top: 36.6%;
+  left: 65.2%;
+  padding: var(--unit);
+  background: #0007;
+  border: 3px solid #333;
+  box-shadow: 0 0 1px 2px black, inset 0 0 1px 2px black;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-shadow: -2px 0 black, 2px 0 black, 0 2px 0 black, 0 -2px 0 black;
+}
+.gold {    
+  height: calc(12.6 * var(--unit));
+  width: calc(53 * var(--unit));
+  margin-left: calc(-1 * var(--unit));
+
+  display: flex;
+  align-items: center;
+}
+.gold-1, .gold-5, .gold-10 {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  width: 13.6%;
+  height: 90%;
+
+  padding-top: 2%;
+  font-size: calc(3 * var(--unit));
+  font-family: monospace;
+  font-weight: bold;
+  display: flex;
+  align-items: start;
+}
+.plus {
+  color: darkgreen;
+}
+.minus {
+  color: darkred;
+}
+.gold-1 {
+  background-image: url(img/tokens/gold1.webp);
+  padding-left: 1%;
+}
+.gold-5 {
+  background-image: url(img/tokens/gold5.webp);
+  padding-left: 0.7%;
+}
+.gold-10 {
+  background-image: url(img/tokens/gold10.webp);
+}
+.chest {
+  background-image: url(img/tokens/gold.webp);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  width: 19%;
+  height: 100%;
+  margin-left: var(--unit);
+
+  padding-top: var(--unit);
+  color: white;
+  font-size: calc(4.4 * var(--unit));
+  font-weight: bold;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+}
+
+/* ------------ overlay ------------ */
+.overlay {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #0006;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: #0b0704;
+  color: #fedfae;
+  position: relative;
+  padding: calc(4 * var(--unit));
+  border-radius: calc(2 * var(--unit));
+  margin: calc(1 * var(--unit));
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal > *:not(:last-child) {
+  margin-bottom: calc(1 * var(--unit));
+}
+
+.close-modal {
+  position: absolute;
+  top: calc(1 * var(--unit));
+  right: calc(1 * var(--unit));
+  width: calc(3 * var(--unit));
+  height: calc(3 * var(--unit));
+  color: #fedfae;
+  background: #0b0704;
+  font-family: sans-serif;
+  border: 0;
+}
+
+.text {
+  font-size: calc(2.5 * var(--unit));
+  color: #fedfae;
+}
+
+.modal-buttons {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+  width: auto;
+  margin-left: calc(-1 * var(--unit));
+}
+.modal-buttons >.text {
+  flex: 1;
+  text-transform: capitalize;
+}
+
+input[type="radio"] {
+  display: none;
+}
+.radio-label {
+  height: calc(4 * var(--unit));
+  border-radius: calc(2 * var(--unit));
+  padding: calc(1 * var(--unit));
+
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(2.5 * var(--unit));
+}
+input[type="radio"]:checked + label {
+  border-color: darkred;
+  box-shadow: 0 0 0.5vh 0.5vh darkred;
+}
+
+.modal .text-button {
+  height: calc(4 * var(--unit));
+  margin-top: var(--unit);
+}

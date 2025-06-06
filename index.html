@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+
+  <title>Darkest Hamlet - by Piña</title>
+  <link rel="icon" type="image/x-icon" href="img/icons/emblem.png" />
+  <link rel="apple-touch-icon" href="img/icons/emblem.png" />
+
+  <link
+    rel="manifest"
+    href="manifest.json"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <meta name="apple-mobile-web-app-status-bar" content="#000" />
+  <meta name="theme-color" content="#000" />
+  <meta
+    name="description"
+    content="A Darkest Dungeon boardgame companion app to track the hamlet."
+  />
+</head>
+
+<body>
+  <div id="app">
+    <main :style="{ '--unit': `${this.zoom}vh` }">
+      <div
+        v-for="(level, building) in current.buildings"
+        class="building"
+        :class="building"
+        :style="{ backgroundImage: `url(img/buildings/${building}${level}.webp)` }"
+      ></div>
+
+      <div class="zoom">
+        <button
+          @click="zoom > .39 ? zoom -= .1 : null"
+          class="zoom-out"
+        ></button>
+        <button
+          @click="zoom < 1.41 ? zoom += .1 : null"
+          class="zoom-in"
+        ></button>
+
+        <button @click="upgrading = true" class="text-button">Upgrade</button>
+
+        <select v-model="setting" class="settings">
+          <option value="" hidden disabled></option>
+          <optgroup label="Switch Hamlet">
+            <option v-for="(item, i) in hamlets" :value="i">
+              Hamlet {{i+1}}
+            </option>
+            <option value="add-hamlet">+ Add New Hamlet</option>
+            <option value="delete-hamlet" :disabled="hamlets.length < 2">
+              - Delete Current Hamlet
+            </option>
+          </optgroup>
+          <optgroup label="Manage Save">
+            <option value="export">Export Save</option>
+            <option value="import">Import Save</option>
+          </optgroup>
+        </select>
+
+        <a id="export" style="display: none"></a>
+        <input
+          type="file"
+          accept=".json"
+          id="import"
+          @change="onFileUpload"
+          style="display: none"
+        />
+      </div>
+
+      <div class="resources">
+        <div class="text">Gold</div>
+        <div class="gold">
+          <button
+            v-for="x in [10, 5, 1]"
+            @click="current.gold = Math.max(current.gold - x, 0)"
+            class="minus"
+            :class="'gold-' + x"
+          >
+            -
+          </button>
+
+          <div class="chest">{{current.gold}}</div>
+    
+          <button
+            v-for="x in [1, 5, 10]"
+            @click="current.gold += x"
+            class="plus"
+            :class="'gold-' + x"
+          >
+            +
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <section class="overlay" v-if="opened" @click.self="closeModal()" :style="{ '--unit': `${this.zoom}vh` }">
+      <div class="modal">
+        <button class="close-modal" @click="closeModal()">X</button>
+
+        <template v-if="upgrading">
+          <div class="text">Building Levels</div>
+
+          <div
+            class="modal-buttons"
+            v-for="(level, building) in current.buildings"
+            style="width: 100%;"
+          >
+            <div class="text">
+              {{building.replaceAll('_', ' ')}} ({{upgradeCost(building)}} gold)
+            </div>
+
+            <template v-for="item in 3">
+              <input
+                type="radio"
+                :id="building + item"
+                :value="item"
+                v-model="current.buildings[building]"
+              />
+              <label :for="building + item" class="radio-label">
+                {{ 'I'.repeat(item) }}
+              </label>
+            </template>
+          </div>
+
+          <button class="text-button" @click="closeModal()">Close</button>
+        </template>
+
+        <template v-else>
+          <div class="text">Are you sure you want to delete the current hamlet?</div>
+
+          <div class="modal-buttons">
+            <button class="text-button" @click="confirm()">Yes</button>
+            <button class="text-button" @click="closeModal()">No</button>
+          </div>
+        </template>
+      </div>
+    </section>
+  </div>
+
+  <script src="constants.js"></script>
+  <script src="app.js"></script>
+</body>

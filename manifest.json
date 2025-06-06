@@ -1,0 +1,16 @@
+{
+  "name": "Darkest Hamlet - by Piña",
+  "short_name": "Darkest Hamlet",
+  "start_url": "index.html",
+  "display": "fullscreen",
+  "background_color": "#c8c4bd",
+  "theme_color": "#000",
+  "orientation": "landscape",
+  "icons": [
+    {
+      "src": "img/icons/emblem.png",
+      "type": "image/png",
+      "sizes": "173x193"
+    }
+  ]
+}
