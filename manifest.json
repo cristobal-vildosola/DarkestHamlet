@@ -3,14 +3,25 @@
   "short_name": "Darkest Hamlet",
   "start_url": "index.html",
   "display": "fullscreen",
-  "background_color": "#c8c4bd",
+  "background_color": "#0b0704",
   "theme_color": "#000",
   "orientation": "landscape",
   "icons": [
     {
-      "src": "img/icons/emblem.png",
+      "src": "img/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icons/maskable-512x512.png",
       "type": "image/png",
-      "sizes": "173x193"
+      "sizes": "512x512",
+      "purpose": "maskable"
     }
   ]
 }

@@ -3,7 +3,7 @@ html {
   margin: 0;
   padding: 0;
   font-family: serif;
-  background-color: black;
+  background-color: #0b0704;
   color: darkred;
   overflow: auto;
 }
@@ -246,7 +246,7 @@ main > * {
   margin: 0 calc(2 * var(--unit));
 }
 .provision img {
-  height: 100%;
+  height: calc(5 * var(--unit));
   width: auto;
   margin-left: var(--unit);
 }

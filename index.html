@@ -7,8 +7,8 @@
   <link rel="stylesheet" href="styles.css" />
 
   <title>Darkest Hamlet - by Piña</title>
-  <link rel="icon" type="image/x-icon" href="img/icons/emblem.png" />
-  <link rel="apple-touch-icon" href="img/icons/emblem.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="img/icons/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="img/icons/apple-touch-icon.png">
 
   <link
     rel="manifest"
@@ -46,7 +46,7 @@
 
         <button @click="upgrading = true" class="text-button">Upgrade</button>
 
-        <select v-model="setting" class="settings">
+        <select id="settings" v-model="setting" class="settings">
           <option value="" hidden disabled></option>
           <optgroup label="Switch Hamlet">
             <option v-for="(item, i) in hamlets" :value="i">
