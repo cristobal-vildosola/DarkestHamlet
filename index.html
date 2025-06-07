@@ -73,7 +73,20 @@
         />
       </div>
 
-      <div class="resources">
+      <div class="resource provisions">
+        <div class="text">Provisions</div>
+        <div class="provision">
+          <button @click="current.provisions = Math.max(current.provisions - 1, 0)">
+            -1
+          </button>
+          <div>{{current.provisions}}</div>
+          <img src="img/tokens/provision.webp">
+          <button @click="current.provisions = Math.min(current.provisions + 1, 8)">
+            +1</button>
+        </div>
+      </div>
+
+      <div class="resource">
         <div class="text">Gold</div>
         <div class="gold">
           <button
