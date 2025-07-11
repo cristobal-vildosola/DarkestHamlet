@@ -14,6 +14,7 @@ const defaultHamlet = {
   },
   gold: 0,
   provisions: 0,
+  waitingHeroes: 2,
 };
 
 const upgradeCost = {
@@ -33,6 +34,8 @@ createApp({
       currentSave: 0,
 
       // modals and options
+      day: 0,
+      blocked: [],
       setting: 0,
       upgrading: false,
       deletingHamlet: false,
@@ -98,6 +101,14 @@ createApp({
     upgradeCost(building) {
       return upgradeCost[building];
     },
+    block(building) {
+      if (this.blocked.includes(building)) {
+        this.blocked = this.blocked.filter((x) => x !== building);
+      } else {
+        this.blocked.push(building);
+      }
+    },
+
     closeModal() {
       this.deletingHamlet = false;
       this.upgrading = false;
@@ -125,8 +136,7 @@ createApp({
 
     exportSave() {
       const save = JSON.stringify(this.save, null, 2);
-      const dataStr =
-        "data:text/json;charset=utf-8," + encodeURIComponent(save);
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(save);
       const dlAnchorElem = document.getElementById("export");
       dlAnchorElem.setAttribute("href", dataStr);
       dlAnchorElem.setAttribute("download", `${LOCAL_STORAGE_KEY}.json`);
