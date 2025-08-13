@@ -15,6 +15,7 @@ const defaultHamlet = {
   gold: 0,
   provisions: 0,
   waitingHeroes: 2,
+  usedHeroes: [],
 };
 
 const upgradeCost = {
@@ -26,6 +27,34 @@ const upgradeCost = {
   nomad_wagon: 10,
   stagecoach: 20,
 };
+
+const heroes = [
+  "Abomination",
+  "Antiquarian",
+  "Arbalest",
+  "Bounty_Hunter",
+  "Crusader",
+  "Flagellant",
+  "Grave_Robber",
+  "Hellion",
+  "Highwayman",
+  "Houndmaster",
+  "Jester",
+  "Leper",
+  "Man-at-arms",
+  "Occultist",
+  "Plague_Doctor",
+  "Shieldbreaker",
+  "Vestal",
+];
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
 createApp({
   data() {
@@ -39,6 +68,9 @@ createApp({
       setting: 0,
       upgrading: false,
       deletingHamlet: false,
+      selectingHero: false,
+      selectedHero: "",
+      availableHeroes: [],
       zoom: 0.98,
     };
   },
@@ -93,7 +125,7 @@ createApp({
     },
 
     opened() {
-      return this.deletingHamlet || this.upgrading;
+      return this.deletingHamlet || this.upgrading || this.selectingHero;
     },
   },
 
@@ -108,11 +140,6 @@ createApp({
         this.blocked.push(building);
       }
     },
-
-    closeModal() {
-      this.deletingHamlet = false;
-      this.upgrading = false;
-    },
     confirm() {
       this.deleteHamlet();
       this.closeModal();
@@ -122,6 +149,28 @@ createApp({
       this.hamlets.splice(this.currentSave, 1);
       this.currentSave = 0;
       this.setting = this.currentSave;
+    },
+
+    openHeroes() {
+      this.selectingHero = true;
+      const used = new Set(this.current.usedHeroes);
+      const available = shuffleArray(heroes.filter((x) => !used.has(x)));
+      this.availableHeroes = available
+        .slice(0, this.current.waitingHeroes + 1)
+        .sort();
+    },
+    selectHero() {
+      if (this.selectedHero) {
+        this.current.usedHeroes.push(this.selectedHero);
+        this.closeModal();
+      }
+    },
+
+    closeModal() {
+      this.deletingHamlet = false;
+      this.upgrading = false;
+      this.selectingHero = false;
+      this.selectedHero = "";
     },
 
     saveGame() {
@@ -136,7 +185,8 @@ createApp({
 
     exportSave() {
       const save = JSON.stringify(this.save, null, 2);
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(save);
+      const dataStr =
+        "data:text/json;charset=utf-8," + encodeURIComponent(save);
       const dlAnchorElem = document.getElementById("export");
       dlAnchorElem.setAttribute("href", dataStr);
       dlAnchorElem.setAttribute("download", `${LOCAL_STORAGE_KEY}.json`);

@@ -7,13 +7,30 @@
   <link rel="stylesheet" href="styles.css" />
 
   <title>Darkest Hamlet - by Piña</title>
-  <link rel="icon" type="image/png" sizes="32x32" href="img/icons/favicon-32x32.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="img/icons/apple-touch-icon.png" />
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="img/icons/favicon-32x32.png"
+  />
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="img/icons/apple-touch-icon.png"
+  />
 
-  <link rel="manifest" href="manifest.json" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link
+    rel="manifest"
+    href="manifest.json"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
   <meta name="apple-mobile-web-app-status-bar" content="#000" />
   <meta name="theme-color" content="#000" />
-  <meta name="description" content="A Darkest Dungeon boardgame companion app to track the hamlet." />
+  <meta
+    name="description"
+    content="A Darkest Dungeon boardgame companion app to track the hamlet."
+  />
 </head>
 
 <body>
@@ -24,20 +41,36 @@
           <img v-if="day == i" src="img/tokens/day.webp" />
         </button>
 
-        <button v-if="day > 0" class="text-button" @click="day -= day > 0 ? 1 : 0; blocked= []">Next Day</button>
+        <button
+          v-if="day > 0"
+          class="text-button"
+          @click="day -= day > 0 ? 1 : 0; blocked= []"
+        >
+          Next Day
+        </button>
       </div>
 
       <div class="config">
         <div>
-          <button @click="zoom > .39 ? zoom -= .1 : null" class="zoom-out"></button>
-          <button @click="zoom < 1.41 ? zoom += .1 : null" class="zoom-in"></button>
+          <button
+            @click="zoom > .39 ? zoom -= .1 : null"
+            class="zoom-out"
+          ></button>
+          <button
+            @click="zoom < 1.41 ? zoom += .1 : null"
+            class="zoom-in"
+          ></button>
 
           <select id="settings" v-model="setting" class="settings">
             <option value="" hidden disabled></option>
             <optgroup label="Switch Hamlet">
-              <option v-for="(item, i) in hamlets" :value="i">Hamlet {{i+1}}</option>
+              <option v-for="(item, i) in hamlets" :value="i">
+                Hamlet {{i+1}}
+              </option>
               <option value="add-hamlet">+ Add New Hamlet</option>
-              <option value="delete-hamlet" :disabled="hamlets.length < 2">- Delete Current Hamlet</option>
+              <option value="delete-hamlet" :disabled="hamlets.length < 2">
+                - Delete Current Hamlet
+              </option>
             </optgroup>
             <optgroup label="Manage Save">
               <option value="export">Export Save</option>
@@ -47,37 +80,66 @@
         </div>
         <div>
           <button @click="upgrading = true" class="text-button">Upgrade</button>
+          <button class="text-button" @click="openHeroes()">Select Hero</button>
         </div>
 
         <a id="export" style="display: none"></a>
-        <input type="file" accept=".json" id="import" @change="onFileUpload" style="display: none" />
+        <input
+          type="file"
+          accept=".json"
+          id="import"
+          @change="onFileUpload"
+          style="display: none"
+        />
       </div>
 
       <div
         v-for="(level, building) in current.buildings"
         class="building"
         :class="building"
-        :style="{ backgroundImage: `url(img/buildings/${building}${level}.webp)` }"
+        :style="level > 1 ? { backgroundImage: `url(img/buildings/${building}${level}.webp)` } : {}"
       >
-        <button v-if="day > 0" class="text-button" @click="block(building)"></button>
-        <div v-if="blocked.indexOf(building) != -1" :class="blocked.indexOf(building) == 0 ? 'caretaker' : 'hero'">
+        <button
+          v-if="day > 0"
+          class="text-button"
+          @click="block(building)"
+        ></button>
+        <div
+          v-if="blocked.indexOf(building) != -1"
+          :class="blocked.indexOf(building) == 0 ? 'caretaker' : 'hero'"
+        >
           {{ blocked.indexOf(building) }}
         </div>
 
         <div v-if="building == 'stagecoach'" class="resource waiting">
           <div class="text">Waiting Heroes</div>
           <div class="resource-row">
-            <button @click="current.waitingHeroes = Math.max(current.waitingHeroes - 1, 0)">-1</button>
+            <button
+              @click="current.waitingHeroes = Math.max(current.waitingHeroes - 1, 0)"
+            >
+              -1
+            </button>
             <div>{{current.waitingHeroes}}</div>
             <img src="img/tokens/hero.webp" />
-            <button @click="current.waitingHeroes = Math.min(current.waitingHeroes + 1, 8)">+1</button>
+            <button
+              @click="current.waitingHeroes = Math.min(current.waitingHeroes + 1, 8)"
+            >
+              +1
+            </button>
           </div>
         </div>
       </div>
 
-      <div v-for="building in ['graveyard', 'guild']" class="building" :class="building">
+      <div
+        v-for="building in ['graveyard', 'guild']"
+        class="building"
+        :class="building"
+      >
         <button class="text-button" @click="block(building)"></button>
-        <div v-if="blocked.indexOf(building) != -1" :class="blocked.indexOf(building) == 0 ? 'caretaker' : 'hero'">
+        <div
+          v-if="blocked.indexOf(building) != -1"
+          :class="blocked.indexOf(building) == 0 ? 'caretaker' : 'hero'"
+        >
           {{ blocked.indexOf(building) }}
         </div>
       </div>
@@ -85,10 +147,18 @@
       <div class="resource provisions">
         <div class="text">Provisions</div>
         <div class="resource-row">
-          <button @click="current.provisions = Math.max(current.provisions - 1, 0)">-1</button>
+          <button
+            @click="current.provisions = Math.max(current.provisions - 1, 0)"
+          >
+            -1
+          </button>
           <div>{{current.provisions}}</div>
           <img src="img/tokens/provision.webp" />
-          <button @click="current.provisions = Math.min(current.provisions + 1, 8)">+1</button>
+          <button
+            @click="current.provisions = Math.min(current.provisions + 1, 8)"
+          >
+            +1
+          </button>
         </div>
       </div>
 
@@ -106,32 +176,98 @@
 
           <div class="chest">{{current.gold}}</div>
 
-          <button v-for="x in [1, 5, 10]" @click="current.gold += x" class="plus" :class="'gold-' + x">+</button>
+          <button
+            v-for="x in [1, 5, 10]"
+            @click="current.gold += x"
+            class="plus"
+            :class="'gold-' + x"
+          >
+            +
+          </button>
         </div>
       </div>
     </main>
 
-    <section class="overlay" v-if="opened" @click.self="closeModal()" :style="{ '--unit': `${this.zoom}vh` }">
+    <section
+      class="overlay"
+      v-if="opened"
+      @click.self="closeModal()"
+      :style="{ '--unit': `${this.zoom}vh` }"
+    >
       <div class="modal">
         <button class="close-modal" @click="closeModal()">X</button>
 
         <template v-if="upgrading">
           <div class="text">Building Levels</div>
 
-          <div class="modal-buttons" v-for="(level, building) in current.buildings" style="width: 100%">
-            <div class="text">{{building.replaceAll('_', ' ')}} ({{upgradeCost(building)}} gold)</div>
+          <div
+            class="modal-buttons"
+            v-for="(level, building) in current.buildings"
+            style="width: 100%"
+          >
+            <div class="text">
+              {{building.replaceAll('_', ' ')}} ({{upgradeCost(building)}} gold)
+            </div>
 
             <template v-for="item in 3">
-              <input type="radio" :id="building + item" :value="item" v-model="current.buildings[building]" />
-              <label :for="building + item" class="radio-label"> {{ 'I'.repeat(item) }} </label>
+              <input
+                type="radio"
+                :id="building + item"
+                :value="item"
+                v-model="current.buildings[building]"
+              />
+              <label :for="building + item" class="radio-label">
+                {{ 'I'.repeat(item) }}
+              </label>
             </template>
           </div>
 
           <button class="text-button" @click="closeModal()">Close</button>
         </template>
 
+        <template v-else-if="selectingHero">
+          <div class="text">Select your hero</div>
+
+          <div class="modal-buttons">
+            <template v-for="hero of availableHeroes">
+              <input
+                type="radio"
+                :id="hero"
+                :value="hero"
+                v-model="selectedHero"
+              />
+
+              <label :for="hero" class="radio-label hero">
+                <img
+                  :src="'img/heroes/' + hero + '.webp'"
+                  height="85"
+                  width="85"
+                />
+                {{ hero.replaceAll('_', ' ') }}
+              </label>
+            </template>
+          </div>
+
+          <div class="modal-buttons">
+            <button
+              class="text-button"
+              @click="selectHero()"
+              :disabled="selectedHero == ''"
+            >
+              Confirm
+            </button>
+          </div>
+
+          <template v-if="current.usedHeroes">
+            <div class="text">used heroes:</div>
+            <div>{{ current.usedHeroes.join(', ') }}</div>
+          </template>
+        </template>
+
         <template v-else>
-          <div class="text">Are you sure you want to delete the current hamlet?</div>
+          <div class="text">
+            Are you sure you want to delete the current hamlet?
+          </div>
 
           <div class="modal-buttons">
             <button class="text-button" @click="confirm()">Yes</button>
@@ -142,6 +278,5 @@
     </section>
   </div>
 
-  <script src="constants.js"></script>
   <script src="app.js"></script>
 </body>

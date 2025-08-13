@@ -285,8 +285,8 @@ main {
   width: auto;
   display: flex;
   flex-direction: column;
-  top: 15%;
-  left: 3%;
+  top: 17%;
+  left: 1%;
   z-index: 3;
 
   > div {
@@ -496,6 +496,16 @@ main {
     .text-button {
       height: calc(4 * var(--unit));
       margin-top: var(--unit);
+    }
+
+    .hero {
+      height: auto;
+      width: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: calc(1 * var(--unit)) calc(2 * var(--unit));
+      border-radius: calc(2 * var(--unit));
     }
   }
 }
